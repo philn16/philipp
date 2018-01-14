@@ -10,7 +10,4 @@ target_link_libraries( unit_tests
 	${PROJECT}
 )
 
-#target_link_libraries( testExe PRIVATE ${PROJECT} )
-
 add_test(test unit_tests)
-
