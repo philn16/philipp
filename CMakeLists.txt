@@ -9,17 +9,12 @@ project(${PROJECT})
 ############################################################
 
 # Source files to be used in the library
-set(library_SOURCES
-    src/someFile.cpp
-)
+set(library_SOURCES src/someFile.cpp )
 
 #Generate the shared library from the library sources
 add_library(${PROJECT} SHARED ${library_SOURCES})
 
-
-target_include_directories(${PROJECT}
-    PUBLIC ${PROJECT_SOURCE_DIR}/include
-)
+target_include_directories( ${PROJECT} PUBLIC ${PROJECT_SOURCE_DIR}/include )
 
 ############################################################
 # Create an executable
