@@ -1,0 +1,2 @@
+#g++ test.cpp -lgtest -lpthread -o run
+g++ thingThatIncludes.cpp -lphilipp -o run && ./run && rm run
