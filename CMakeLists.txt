@@ -8,8 +8,14 @@ project(${PROJECT})
 # Create a library
 ############################################################
 
+FILE(GLOB library_SOURCES src/*)
+
+#message("sources are " "${library_SOURCES}" )
+
+FILE(GLOB HEADERS include/*.h include/*.hpp)
+
 # Source files to be used in the library
-set(library_SOURCES src/someFile.cpp )
+#set(library_SOURCES ${SOURCE} )
 
 #Generate the shared library from the library sources
 add_library(${PROJECT} SHARED ${library_SOURCES})
@@ -24,17 +30,17 @@ target_include_directories( ${PROJECT} PUBLIC ${PROJECT_SOURCE_DIR}/include )
 set(binary_SOURCES mains/main.cpp src/someFile.cpp )
 
 # Add an executable with the above sources
-add_executable(testExe ${binary_SOURCES})
+add_executable(philExe ${binary_SOURCES})
 
 # link the new hello_library target with the hello_binary target
-target_link_libraries( testExe PRIVATE ${PROJECT} )
+target_link_libraries( philExe PRIVATE ${PROJECT} )
 
 ############################################################
 # Install
 ############################################################
 
 # Binaries
-install (TARGETS testExe DESTINATION bin)
+install (TARGETS philExe DESTINATION bin)
 
 # Library
 install (TARGETS ${PROJECT} LIBRARY DESTINATION lib)
@@ -43,7 +49,7 @@ install (TARGETS ${PROJECT} LIBRARY DESTINATION lib)
 #install (FILES cmake-examples.conf DESTINATION etc)
 
 # headers
-FILE(GLOB HEADERS include/*.h include/*.hpp)
+
 install( FILES ${HEADERS} DESTINATION include/philipp)
 
 

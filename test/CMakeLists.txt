@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 enable_testing()
 
-add_executable(unit_tests test.cpp "${PROJECT_SOURCE_DIR}/${library_SOURCES}" )
+add_executable(unit_tests test.cpp "${library_SOURCES}" )
 
 target_link_libraries( unit_tests
 	gtest
