@@ -58,12 +58,14 @@ install (TARGETS ${PROJECT}
 install (FILES cmake-examples.conf
     DESTINATION etc)
 
-
+# headers
 FILE(GLOB HEADERS include/*.h include/*.hpp)
-
-#set( CMAKE_INSTALL_LIBDIR  include)
-message("installing " ${HEADERS}  )
-message("project is  " ${PROJECT} )
 install( FILES ${HEADERS} DESTINATION include/philipp)
 
-#install( HEADERS ${CMAKE_INSTALL_LIBDIR} )
+
+############################################################
+# tesets
+############################################################
+
+add_subdirectory(test)
+
