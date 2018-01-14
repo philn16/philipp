@@ -14,8 +14,8 @@ cmake_minimum_required(VERSION 3.0)
 
 
 #add_custom_target(test
-    #DEPENDS dsdtest
-    #COMMAND dsdtest
+    #DEPENDS unit_tests
+    #COMMAND unit_tests
 #)
 
 #ADD_EXECUTABLE(dsdtest ${SRCS})
@@ -23,11 +23,18 @@ cmake_minimum_required(VERSION 3.0)
 
 enable_testing()
 
+set(binary_SOURCES ${PROJECT_SOURCE_DIR}/*)
+
 add_executable(unit_tests test.cpp /home/phil/git/phil++/src/someFile.cpp )
 
 target_link_libraries( unit_tests
 	gtest
 	pthread
+	${PROJECT}
 )
 
+#target_link_libraries( testExe PRIVATE ${PROJECT} )
+
 add_test(test_all unit_tests)
+
+message( ${binary_SOURCES} )
