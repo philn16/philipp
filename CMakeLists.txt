@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(cmake_examples_install)
+set(PROJECT	philipp)
+
+project(${PROJECT})
 
 ############################################################
 # Create a library
@@ -13,10 +15,10 @@ set(library_SOURCES
 )
 
 #Generate the shared library from the library sources
-add_library(cmake_examples_inst SHARED ${library_SOURCES})
+add_library(${PROJECT} SHARED ${library_SOURCES})
 
 
-target_include_directories(cmake_examples_inst
+target_include_directories(${PROJECT}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
 
@@ -31,11 +33,11 @@ set(binary_SOURCES
 )
 
 # Add an executable with the above sources
-add_executable(cmake_examples_inst_bin ${binary_SOURCES})
+add_executable(testExe ${binary_SOURCES})
 
 # link the new hello_library target with the hello_binary target
-target_link_libraries( cmake_examples_inst_bin
-    PRIVATE cmake_examples_inst
+target_link_libraries( testExe
+    PRIVATE ${PROJECT}
 )
 
 ############################################################
@@ -43,15 +45,25 @@ target_link_libraries( cmake_examples_inst_bin
 ############################################################
 
 # Binaries
-install (TARGETS cmake_examples_inst_bin
+install (TARGETS testExe
     DESTINATION bin)
 
 # Library
 # Note: may not work on windows
-install (TARGETS cmake_examples_inst
+install (TARGETS ${PROJECT}
     LIBRARY DESTINATION lib)
 
 
 # Config
 install (FILES cmake-examples.conf
     DESTINATION etc)
+
+
+FILE(GLOB HEADERS include/*.h include/*.hpp)
+
+#set( CMAKE_INSTALL_LIBDIR  include)
+message("installing " ${HEADERS}  )
+message("project is  " ${PROJECT} )
+install( FILES ${HEADERS} DESTINATION include/philipp)
+
+#install( HEADERS ${CMAKE_INSTALL_LIBDIR} )

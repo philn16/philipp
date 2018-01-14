@@ -1,5 +1,5 @@
 
-#include <cmake_examples_inst_bin/someFile.hpp>
+#include <philipp/someFile.hpp>
 
 int main(){
 	sayHi();
