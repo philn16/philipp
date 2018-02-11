@@ -2,9 +2,9 @@
 
 #include "dsp/fir_rational.hpp"
 
-TEST(fir_rational, test1){
+TEST(fir_rational, test1) {
 	fir_rational<int,int,int> fir;
-	
+
 	std::vector<int> inputs(4);
 	inputs[0]=0;
 	inputs[1]=1;
