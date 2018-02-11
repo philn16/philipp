@@ -42,7 +42,10 @@ class vector_queue{
 	void pop_front(int ammountToPop){
 		begin += ammountToPop;
 	}
-	
+	//! pop the back (starting at index size()-1) by ammountToPop elements. Undefined behavior happens if you pop more than what's returned by size()
+	void pop_back(int ammountToPop){
+		end -= ammountToPop;
+	}
 	//! pushes values to the back. For example, if we already had [0,1,2,3] and fed this [4,5,6] we'd end up with [0,1,2,3,4,5,6]
 	template<typename arrayT>
 	void push_back(arrayT input, int ammount){

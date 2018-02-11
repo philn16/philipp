@@ -35,6 +35,19 @@ uut.push_back(in_3,in_3.size());
 for(int i=0; i < in_3.size(); i++)
 ASSERT_EQ(uut[i],in_3[i]);
 
+
+// test the ability to modify values
+for(int index=0, value=99; index<10; value++, index++)
+uut[index]=value;
+for(int index=0, value=99; index<10; value++, index++)
+ASSERT_EQ(uut[index],value);
+
+// tests pop_back
+int cursize=uut.size();
+int expectedNewSize=cursize-55;
+uut.pop_back(55);
+ASSERT_EQ(uut.size(),expectedNewSize);
+
 }
 
 
