@@ -4,21 +4,22 @@ set(PROJECT	philipp)
 
 project(${PROJECT})
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ############################################################
 # Create a library
 ############################################################
 
-FILE(GLOB library_SOURCES src/*)
+FILE(GLOB SOURCES src/*)
+message("sources are " "${SOURCES}" )
 
-#message("sources are " "${library_SOURCES}" )
-
-FILE(GLOB HEADERS include/*.h include/*.hpp)
+FILE(GLOB HEADERS include/*.h include/*.hpp include/*/*.hpp)
+message("headers are " "${HEADERS}" )
 
 # Source files to be used in the library
-#set(library_SOURCES ${SOURCE} )
+#set(SOURCES ${SOURCE} )
 
 #Generate the shared library from the library sources
-add_library(${PROJECT} SHARED ${library_SOURCES})
+add_library(${PROJECT} SHARED ${SOURCES})
 
 target_include_directories( ${PROJECT} PUBLIC ${PROJECT_SOURCE_DIR}/include )
 
