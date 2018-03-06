@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 enable_testing()
 
-FILE(GLOB TEST_SOURCES *.cpp)
+FILE(GLOB TEST_SOURCES test.cpp */*.cpp)
 message("Test sources are " "${TEST_SOURCES}")
 
 add_executable(unit_tests "${TEST_SOURCES}" "${LIBRARY__SOURCES}" )

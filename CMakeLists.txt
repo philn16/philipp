@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 
-set(PROJECT	philipp)
+set(PROJECT	philpp)
 
-project($ {PROJECT})
+project(${PROJECT})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ############################################################
@@ -19,9 +19,9 @@ message("headers are " "${HEADERS}" )
 #set(SOURCES ${SOURCE} )
 
 #Generate the shared library from the library sources
-add_library($ {PROJECT} SHARED $ {SOURCES})
+add_library(${PROJECT} SHARED ${SOURCES})
 
-target_include_directories( $ {PROJECT} PUBLIC $ {PROJECT_SOURCE_DIR}/include )
+target_include_directories( ${PROJECT} PUBLIC ${PROJECT_SOURCE_DIR}/include )
 
 ############################################################
 # Create an executable
@@ -31,10 +31,10 @@ target_include_directories( $ {PROJECT} PUBLIC $ {PROJECT_SOURCE_DIR}/include )
 set(binary_SOURCES mains/main.cpp src/someFile.cpp )
 
 # Add an executable with the above sources
-add_executable(philExe $ {binary_SOURCES})
+add_executable(philExe ${binary_SOURCES})
 
 # link the new hello_library target with the hello_binary target
-target_link_libraries( philExe PRIVATE $ {PROJECT} )
+target_link_libraries( philExe PRIVATE ${PROJECT} )
 
 ############################################################
 # Install
@@ -44,14 +44,14 @@ target_link_libraries( philExe PRIVATE $ {PROJECT} )
 install (TARGETS philExe DESTINATION bin)
 
 # Library
-install (TARGETS $ {PROJECT} LIBRARY DESTINATION lib)
+install (TARGETS ${PROJECT} LIBRARY DESTINATION lib)
 
 # Config
 #install (FILES cmake-examples.conf DESTINATION etc)
 
 # headers
 
-install( FILES $ {HEADERS} DESTINATION include/philipp)
+install( FILES ${HEADERS} DESTINATION include/philpp)
 
 
 ############################################################

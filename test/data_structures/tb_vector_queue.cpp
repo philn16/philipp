@@ -1,5 +1,5 @@
 #include "data_structures/vector_queue.hpp"
-#include "defines.hpp"
+#include "general/defines_includes.hpp"
 #include <gtest/gtest.h>
 
 
@@ -24,10 +24,10 @@ TEST(vector_queue, test1) {
 	for(int index=0,value=5; index<7; index++, value++)
 		ASSERT_EQ(uut[index],value);
 
-// clear out everythin
+	// clear out everythin
 	uut.pop_front(uut.size());
 
-// test a large allocation and handeling of std::vector
+	// test a large allocation and handeling of std::vector
 	std::vector<int> in_3(20000);
 	for(int i=0; i<in_3.size(); i++)
 		in_3[i]=i*i%13+i*i;
@@ -36,13 +36,13 @@ TEST(vector_queue, test1) {
 		ASSERT_EQ(uut[i],in_3[i]);
 
 
-// test the ability to modify values
+	// test the ability to modify values
 	for(int index=0, value=99; index<10; value++, index++)
 		uut[index]=value;
 	for(int index=0, value=99; index<10; value++, index++)
 		ASSERT_EQ(uut[index],value);
 
-// tests pop_back
+	// tests pop_back
 	int cursize=uut.size();
 	int expectedNewSize=cursize-55;
 	uut.pop_back(55);

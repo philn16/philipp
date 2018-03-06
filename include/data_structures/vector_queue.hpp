@@ -1,8 +1,10 @@
+#pragma once
 #include <vector>
 #include <sys/types.h>
 /**
 The vector queue is a queue that on average is O(1) for pushing new elements to the back while allowing for sequential acess of data.
-The basic algorithm is that it uses more data then it needs. When the end of the memory space is reached, it moves everything to the start
+The basic algorithm is that it uses more data then it needs. When the end of the memory space is reached, it moves everything to the start. While moving everything to the stard is O(n), it only happens every n adds.
+Elements of the queu are acessed via the [] operator where the first elements have a smaller index than the last elements.
 Possible uses:
 --------------
 Storing the states of a fir filter as a queue operaation is desired, but you want to be able to acess elements sequentially
@@ -65,7 +67,7 @@ class vector_queue {
 	size_t size() {
 		return end-begin;
 	}
-	//! Acess valid data
+	//! Acess valid data. Note that the first valid data pushed onto the queue is at index 0, so if you pushed 1 then 2 then 3 index 0 would have 1.
 	dataType& operator[](int loc) {
 		return data[begin+loc];
 	}
