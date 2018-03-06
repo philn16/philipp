@@ -1,7 +1,7 @@
 // some usefull functions
 #pragma once
 //#include "general/defines.hpp"
-#include "general/defines_includes.hpp"
+#include "../general/defines_includes.hpp"
 
 template<typename array>
 void array_print(array a,int len) {

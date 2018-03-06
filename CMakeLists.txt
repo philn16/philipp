@@ -51,7 +51,8 @@ install (TARGETS ${PROJECT} LIBRARY DESTINATION lib)
 
 # headers
 
-install( FILES ${HEADERS} DESTINATION include/philpp)
+#install( FILES ${HEADERS} DESTINATION include/philpp)
+install( DIRECTORY include/ DESTINATION include/philpp)
 
 
 ############################################################
