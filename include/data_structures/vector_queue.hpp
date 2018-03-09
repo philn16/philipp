@@ -37,15 +37,15 @@ class vector_queue {
 		data.resize(mult);
 	}
 	//! Set how much extra data is to be stored (for performancce). Note this should be larger than 1
-	void set_mult(int mult) {
+	void set_mult(int mult=2) {
 		this->mult=mult;
 	}
 	//! Pop the front by ammountToPop elements. Starts poping values at index 0. Undefined behavior happens if you pop more than what's returned by size()
-	void pop_front(int ammountToPop) {
+	void pop_front(int ammountToPop=1) {
 		begin += ammountToPop;
 	}
 	//! pop the back (starting at index size()-1) by ammountToPop elements. Undefined behavior happens if you pop more than what's returned by size()
-	void pop_back(int ammountToPop) {
+	void pop_back(int ammountToPop=1) {
 		end -= ammountToPop;
 	}
 	//! pushes values to the back. For example, if we already had [0,1,2,3] and fed this [4,5,6] we'd end up with [0,1,2,3,4,5,6]
@@ -66,6 +66,10 @@ class vector_queue {
 	//! returns the size of data valid data (ignoring extra allocated stuff)
 	size_t size() {
 		return end-begin;
+	}
+	//! empy the queue
+	void empty(){
+			pop_back(size() );
 	}
 	//! Acess valid data. Note that the first valid data pushed onto the queue is at index 0, so if you pushed 1 then 2 then 3 index 0 would have 1.
 	dataType& operator[](int loc) {
