@@ -8,9 +8,9 @@
 
 TEST(fir_rational, test_1_to_1_upr) {
 	fir_rational<int,int,int> fir;
-	int coeficiants[]= {1,2,3,4};
+	int coeficiants[]= {1,2,3,9};
 	int inputs[]= {1,ZEROS};
-	int expected[]= {1,2,3,4,0,0,0};
+	int expected[]= {1,2,3,9,0,0,0};
 	fir.set_coeficiantes(coeficiants);
 	fir.give_inputs(inputs,LEN(inputs));
 	auto output = fir.get_outputs(fir.outputs_avaliable());
@@ -19,32 +19,32 @@ TEST(fir_rational, test_1_to_1_upr) {
 
 //! tests the initialization function. tests private stuff
 //! The key to the values is that they should cause the next input to require being taken, and go to the very end
-TEST(fir_rational, _init){
+TEST(fir_rational, _init) {
 	int coeficiants[]= {1,2,3,4};
-	
+
 	fir_rational<int,int,int> fir;
 	fir.set_coeficiantes(coeficiants);
-	
+
 	fir.set_resampling_ratios(1,1);
 	ASSERT_EQ(fir.inputs.size(), 4 );
 	ASSERT_EQ(fir.input_start, -1 );
-	
+
 	fir.set_resampling_ratios(3,2);
-	ASSERT_EQ(fir.inputs.size(), 2);
-	ASSERT_EQ(fir.input_start, -3 );	
-	
+	ASSERT_EQ(fir.inputs.size(), 1);
+	ASSERT_EQ(fir.input_start, -2 );
+
 	fir.set_resampling_ratios(2,3);
 	ASSERT_EQ(fir.inputs.size(), 2 );
-	ASSERT_EQ(fir.input_start, -1 );
+	ASSERT_EQ(fir.input_start, -2 );
 
 #if 0
 	fir.set_resampling_ratios(1,1);
-	int coefs0[]={};
+	int coefs0[]= {};
 	fir.set_coeficiantes(coefs0);
 	ASSERT_EQ(fir.inputs.size(), 1);
 	ASSERT_EQ(fir.input_start, -1 );
 #endif
-	
+
 }
 
 TEST(fir_rational, test_3_to_2_upr) {
@@ -80,7 +80,7 @@ TEST(fir_rational, test_2_to_3_upr) {
 
 #if 0
 //! This designed to cause stuff to break
-TEST(fir_rational, oddballs){
+TEST(fir_rational, oddballs) {
 	fir_rational<int,int,int> fir;
 	// a fir with no coeficiants
 	int coeficiants[]= {};
@@ -89,6 +89,6 @@ TEST(fir_rational, oddballs){
 	fir.set_coeficiantes(coeficiants);
 	fir.give_inputs(inputs,LEN(inputs));
 	auto output = fir.get_outputs(fir.outputs_avaliable());
-	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));	
+	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));
 }
 #endif
