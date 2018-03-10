@@ -84,7 +84,7 @@ TEST(fir_rational, test_2_to_3_upr) {
 	// 1,2,3,4,5,6,7,8,9,
 	//  ,0,1,2,3,4,5,6,7,8,9,
 	int expected[]= {1,6,12,8,0,0,0};
-	fir.set_resampling_ratios(3,2);
+	fir.set_resampling_ratios(2,3);
 	fir.set_coeficiantes(coeficiants);
 	fir.give_inputs(inputs,LEN(inputs));
 	auto output = fir.get_outputs(fir.outputs_avaliable());

@@ -79,7 +79,7 @@ class fir_rational {
 		while( true) {
 			cout << "cursize:  " << inputs.size() << endl;
 			cout << "in start: " << input_start << endl;
-			
+
 			// set up the next input
 			while(input_start < 0) {
 				// there's not enough input for a cycle - come back next time
