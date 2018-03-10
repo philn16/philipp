@@ -50,7 +50,7 @@ class vector_queue {
 	}
 	//! pushes values to the back. For example, if we already had [0,1,2,3] and fed this [4,5,6] we'd end up with [0,1,2,3,4,5,6]
 	template<typename arrayT>
-	void push_back(arrayT input, int ammount) {
+	void push_back(arrayT input, int ammount=1) {
 		// move everything to the front if we've reached the end
 		if ( end+ammount >= data.size())
 			shitToFront();
@@ -68,8 +68,8 @@ class vector_queue {
 		return end-begin;
 	}
 	//! empy the queue
-	void empty(){
-			pop_back(size() );
+	void empty() {
+		pop_back(size() );
 	}
 	//! Acess valid data. Note that the first valid data pushed onto the queue is at index 0, so if you pushed 1 then 2 then 3 index 0 would have 1.
 	dataType& operator[](int loc) {

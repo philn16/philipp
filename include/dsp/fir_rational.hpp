@@ -31,17 +31,17 @@ class fir_rational {
 
 
   public:
-	  //! shared initialization
-	  void _init(){
+	//! shared initialization
+	void _init() {
 		inputs.empty();
-		  // setup the initial inputs / states with 0s
+		// setup the initial inputs / states with 0s
 		inputT zero[]= {inputT(0)};
 		input_start = coeficiants.size() % interpolationRatio;
 		// allow first output to be the first input multiplied by the first state
-		for(int i=0; i<coeficiants.size() / interpolationRatio; i++)
+		for(int i=0; i<coeficiants.size() / interpolationRatio -1; i++)
 			inputs.push_back(zero,1);
-	  }
-	  
+	}
+
 	//! Example: if interpolationRatio is 3 and decimationRatio is 2 then there will be 3 outputs for every input. \note This is an initialization function.
 	//! interpolation causes the input to be filled with zeros, while decimation causes outputs to be skiped. As a result, interpolation zooms out of the spectrum and decimation zooms in.
 	void set_resampling_ratios(int interpolationRatio=1, int decimationRatio=1) {
@@ -58,19 +58,22 @@ class fir_rational {
 		std::vector< coeficiantT > coef_vec;
 		for( auto coef : coefs )
 			coef_vec.push_back(coef);
+		// reset the current coeficiants each time
+		coeficiants.resize(0);
+		// reverse the order of the coeficiants for easier multiplying later
 		for(int i=coef_vec.size()-1; i >= 0 ; i--)
 			coeficiants.push_back(coef_vec[i]);
-				_init();
+		_init();
 	}
 
 	//! takes in inputs and calculates the outputs
 	template<typename inputStruct>
 	void give_inputs(inputStruct in, int ammount) {
 		inputs.push_back(in,ammount);
-		int poped=0;
-		while( true){
+// keep going as long as there are enough inputs
+		while( true) {
 			// set up the next input
-			while(true){
+			while(input_start < 0) {
 				// there's not enough input for a cycle - come back next time
 				if ( input_start + inputs.size() * interpolationRatio < coeficiants.size())
 					return;
@@ -78,15 +81,13 @@ class fir_rational {
 				inputs.pop_front(1);
 				// don't process 0s
 				input_start += interpolationRatio;
-				// we're ready for the next input
-				if( input_start  > 0 )
-					break;
-			}
+							}
 			outputT sum=0;
+			// multiply the inupts by the coeficiants accounting for 0s due to interpolation
 			for( int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[position];
+			outputs.push_back(&sum);
 			input_start -= decimationRatio;
-			
 		}
 	}
 
