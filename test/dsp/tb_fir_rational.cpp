@@ -17,7 +17,7 @@ TEST(fir_rational, test_1_to_1_upr) {
 	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));
 }
 
-//! tests the initialization function. tests private stuff
+//! tests the initialization function. tests private stuff, and shouldn't be looked at
 //! The key to the values is that they should cause the next input to require being taken, and go to the very end
 TEST(fir_rational, _init) {
 	int coeficiants[]= {1,2,3,4};
@@ -30,21 +30,12 @@ TEST(fir_rational, _init) {
 	ASSERT_EQ(fir.input_start, -1 );
 
 	fir.set_resampling_ratios(3,2);
-	ASSERT_EQ(fir.inputs.size(), 1);
-	ASSERT_EQ(fir.input_start, -2 );
+	ASSERT_EQ(fir.inputs.size(), 2);
+	ASSERT_EQ(fir.input_start, -3 );
 
 	fir.set_resampling_ratios(2,3);
 	ASSERT_EQ(fir.inputs.size(), 2 );
-	ASSERT_EQ(fir.input_start, -2 );
-
-#if 0
-	fir.set_resampling_ratios(1,1);
-	int coefs0[]= {};
-	fir.set_coeficiantes(coefs0);
-	ASSERT_EQ(fir.inputs.size(), 1);
 	ASSERT_EQ(fir.input_start, -1 );
-#endif
-
 }
 
 TEST(fir_rational, test_3_to_1_upr) {
@@ -91,7 +82,6 @@ TEST(fir_rational, test_2_to_3_upr) {
 	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));
 }
 
-#if 0
 //! This designed to cause stuff to break
 TEST(fir_rational, oddballs) {
 	fir_rational<int,int,int> fir;
@@ -104,4 +94,5 @@ TEST(fir_rational, oddballs) {
 	auto output = fir.get_outputs(fir.outputs_avaliable());
 	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));
 }
-#endif
+
+
