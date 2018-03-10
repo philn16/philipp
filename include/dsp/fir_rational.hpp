@@ -75,11 +75,8 @@ class fir_rational {
 	template<typename inputStruct>
 	void give_inputs(inputStruct in, int ammount) {
 		inputs.push_back(in,ammount);
-// keep going as long as there are enough inputs
+		// keep going as long as there are enough inputs
 		while( true) {
-			//cout << "cursize:  " << inputs.size() << endl;
-			//cout << "in start: " << input_start << endl;
-
 			// set up the next input
 			while(input_start < 0) {
 				// there's not enough input for a cycle - come back next time
@@ -90,17 +87,11 @@ class fir_rational {
 				// don't process 0s
 				input_start += interpolationRatio;
 			}
-			//cout << "cursize:  " << inputs.size() << endl;
-			//cout << "in start: " << input_start << endl;
 			outputT sum=0;
 			// multiply the inupts by the coeficiants accounting for 0s due to interpolation
 			int input_count=0;
-			for( int position = input_start; position < coeficiants.size(); position += interpolationRatio) {
-				//cout << position << " " << input_count << " " <<inputs[input_count] << endl;
-				sum += coeficiants[position] * inputs[input_count];
-				input_count++;
-			}
-			//cout << endl;
+			for( int position = input_start; position < coeficiants.size(); position += interpolationRatio)
+				sum += coeficiants[position] * inputs[input_count++];
 			outputs.push_back(&sum);
 			input_start -= decimationRatio;
 		}
