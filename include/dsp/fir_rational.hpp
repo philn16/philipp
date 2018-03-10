@@ -39,12 +39,12 @@ class fir_rational {
 		// setup the initial inputs / states with 0s
 		inputT zero[]= {inputT(0)};
 		// total size of inital input values including the soon to be new one
-		int total = coeficiants.size()/interpolationRatio;
+		int total = (coeficiants.size()+interpolationRatio-1)/interpolationRatio;
 		// see if there's room for extra 0 inputs before the main corse
 		for(int i=0; i< total ; i++)
 			inputs.push_back(zero,1);
 		// now for determining the start location
-		input_start = coeficiants.size() - (total+1)*interpolationRatio;
+		input_start = coeficiants.size() - (total)*interpolationRatio-1;
 	}
 
 	//! Example: if interpolationRatio is 3 and decimationRatio is 2 then there will be 3 outputs for every input. \note This is an initialization function.
@@ -77,22 +77,26 @@ class fir_rational {
 		inputs.push_back(in,ammount);
 // keep going as long as there are enough inputs
 		while( true) {
+			cout << "cursize:  " << inputs.size() << endl;
+			cout << "in start: " << input_start << endl;
+			
 			// set up the next input
 			while(input_start < 0) {
 				// there's not enough input for a cycle - come back next time
-				if ( input_start + (inputs.size()-1) * interpolationRatio < coeficiants.size())
+				if ( input_start + inputs.size() * interpolationRatio <= coeficiants.size())
 					return;
 				// make way for the newer data
 				inputs.pop_front(1);
 				// don't process 0s
 				input_start += interpolationRatio;
 			}
+			cout << "cursize:  " << inputs.size() << endl;
 			cout << "in start: " << input_start << endl;
 			outputT sum=0;
 			// multiply the inupts by the coeficiants accounting for 0s due to interpolation
 			int input_count=0;
 			for( int position = input_start; position < coeficiants.size(); position += interpolationRatio) {
-								cout << position << " " << input_count << " " <<inputs[input_count] << endl;
+				cout << position << " " << input_count << " " <<inputs[input_count] << endl;
 				sum += coeficiants[position] * inputs[input_count];
 				input_count++;
 			}

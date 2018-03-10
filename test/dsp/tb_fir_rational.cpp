@@ -47,6 +47,19 @@ TEST(fir_rational, _init) {
 
 }
 
+TEST(fir_rational, test_3_to_1_upr) {
+	fir_rational<int,int,int> fir;
+	int coeficiants[]= {1,2,3,4};
+	int inputs[]= {1,0};
+	int expected[]= {1,2,3,4,0,0};
+	fir.set_resampling_ratios(3,1);
+	fir.set_coeficiantes(coeficiants);
+	fir.give_inputs(inputs,LEN(inputs));
+	auto output = fir.get_outputs(fir.outputs_avaliable());
+	ASSERT_TRUE(assert_lists_equal(expected,output,LEN(expected)));
+}
+
+
 TEST(fir_rational, test_3_to_2_upr) {
 	fir_rational<int,int,int> fir;
 	int coeficiants[]= {1,2,3,4,5,6,7,8,9};
