@@ -5,7 +5,7 @@
  */
 template<class dataT>
 class vector_wrapper {
-public:
+  public:
 	//! Return the first valid pointer
 	dataT* begin() {
 		return _begin;
@@ -26,7 +26,7 @@ public:
 	dataT *_begin = nullptr, *_end = nullptr;
 
 	//! Acess wrapper elements
-	dataT operator[](int index){
+	dataT operator[](int index) {
 		return *(begin()+index);
 	}
 };

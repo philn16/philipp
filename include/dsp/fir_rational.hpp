@@ -48,18 +48,18 @@ class fir_rational {
 	}
 
 	//! Example: if interpolationRatio is 3 and decimationRatio is 2 then there will be 3 outputs for every input. \note This is an initialization function.
-	//! interpolation causes the input to be filled with zeros, while decimation causes outputs to be skiped. As a result, interpolation zooms out of the spectrum and decimation zooms in.
+	//! interpolation causes the input to be filled with zeros, while decimation causes outputs to be skied. As a result, interpolation zooms out of the spectrum and decimation zooms in.
 	void set_resampling_ratios(int interpolationRatio=1, int decimationRatio=1) {
 		this->interpolationRatio=interpolationRatio;
 		this->decimationRatio=decimationRatio;
 		_init();
 	}
 
-	//! Set the FIR coeficiants (also called taps). The states are multiplied by the coeficiants and the sumed to give the output. \note This is an initialization function.
+	//! Set the FIR coefficients (also called taps). The states are multiplied by the coefficients and the sumed to give the output. \note This is an initialization function.
 	//! The UPR for a 1 to 1 filter is coefs[0]+z^{-1}coefs[1]+z^{-2}coefs[2]+...
 	template< typename coeficiantArray>
 	void set_coeficiantes(coeficiantArray& coefs) {
-		// the newest values (which appear at the back) are multiplied by the first coeficiants, so it makes sense for the first coeficiants to be at the back
+		// the newest values (which appear at the back) are multiplied by the first coefficients, so it makes sense for the first coefficients to be at the back
 		std::vector< coeficiantT > coef_vec;
 		for( auto coef : coefs )
 			coef_vec.push_back(coef);
@@ -88,7 +88,7 @@ class fir_rational {
 				input_start += interpolationRatio;
 			}
 			outputT sum=0;
-			// multiply the inupts by the coeficiants accounting for 0s due to interpolation
+			// multiply the inputs by the coefficients accounting for 0s due to interpolation
 			int input_count=0;
 			for( int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[input_count++];

@@ -5,6 +5,8 @@
 using std::cout;
 using std::endl;
 
+#include <string>
+using std::string;
 
 //! returns the length of an array
 #define LEN(x) sizeof(x)/(long(&x[1])-long(&x[0]))
