@@ -18,21 +18,27 @@ class vector_queue {
 	//! This affects how much extra memory is used. It's a multiplyer. If this were one and things somehow still woked it'd be really slow as pushing a new element would require moving the queue each time
 	int mult=4;
 	//! Tracks the start of valid indexes (note end takes priority)
-	int begin=0;
+	int _begin=0;
 	//! Tracks the first invalid index location
-	int end=0;
+	int _end=0;
 	//! Move the data back to the front of avaliable memory
 	void shitToFront() {
 		auto newEnd=size();
 		// shift the data to the "left"
-		for(int write=0,read=begin; read != end; read++,write++)
+		for(int write=0,read=_begin; read != _end; read++,write++)
 			data[write]=data[read];
 		// update the start and end indexes to reflect the move
-		begin=0;
-		end=newEnd;
+		_begin=0;
+		_end=newEnd;
 	}
 
   public:
+	dataType* begin() {
+		return &this->operator[](0);
+	}
+	dataType* end() {
+		return begin()+size();
+	}
 	vector_queue() {
 		data.resize(mult);
 	}
@@ -42,30 +48,30 @@ class vector_queue {
 	}
 	//! Pop the front by ammountToPop elements. Starts poping values at index 0. Undefined behavior happens if you pop more than what's returned by size()
 	void pop_front(int ammountToPop=1) {
-		begin += ammountToPop;
+		_begin += ammountToPop;
 	}
 	//! pop the back (starting at index size()-1) by ammountToPop elements. Undefined behavior happens if you pop more than what's returned by size()
 	void pop_back(int ammountToPop=1) {
-		end -= ammountToPop;
+		_end -= ammountToPop;
 	}
 	//! pushes values to the back. For example, if we already had [0,1,2,3] and fed this [4,5,6] we'd end up with [0,1,2,3,4,5,6]
 	template<typename arrayT>
 	void push_back(arrayT input, int ammount=1) {
 		// move everything to the front if we've reached the end
-		if ( end+ammount >= data.size())
+		if ( _end+ammount >= data.size())
 			shitToFront();
 		// ammount of elements in use after finnishing the push
-		auto afterAddAmmount=ammount+end;
+		auto afterAddAmmount=ammount+_end;
 		// allocate more data if nessesary
 		if( afterAddAmmount > data.size() )
 			data.resize(afterAddAmmount*mult);
 		// add the lements to the back
-		for(int i=0; end != afterAddAmmount; end++,i++)
-			data[end]=input[i];
+		for(int i=0; _end != afterAddAmmount; _end++,i++)
+			data[_end]=input[i];
 	}
 	//! returns the size of data valid data (ignoring extra allocated stuff)
 	size_t size() {
-		return end-begin;
+		return _end-_begin;
 	}
 	//! empy the queue
 	void empty() {
@@ -73,7 +79,7 @@ class vector_queue {
 	}
 	//! Acess valid data. Note that the first valid data pushed onto the queue is at index 0, so if you pushed 1 then 2 then 3 index 0 would have 1.
 	dataType& operator[](int loc) {
-		return data[begin+loc];
+		return data[_begin+loc];
 	}
 
 
