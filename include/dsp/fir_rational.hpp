@@ -80,7 +80,7 @@ public:
 		return last_index + interpolationRatio > coef_required_encompass;
 	}
 
-	//! set up the next input - moves the start index and pops inputs from the front
+	//! set up the next input - moves the start index and pops inputs from the front. returns false if unable to update the input
 	bool update_input() {
 		while (input_start < 0) {
 			// there's not enough input for a cycle - come back next time
