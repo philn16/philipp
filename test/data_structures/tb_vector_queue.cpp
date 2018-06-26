@@ -16,6 +16,7 @@ TEST(vector_queue, test1) {
 			ASSERT_EQ(count, num);
 			count++;
 		}
+		ASSERT_EQ(count,LEN(in_1));
 	}
 
 	ASSERT_EQ(uut.size(), 6);
