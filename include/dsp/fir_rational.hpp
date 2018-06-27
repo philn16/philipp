@@ -45,9 +45,10 @@ public:
 		int first_zero;
 		first_zero = coeficiants.size() - 1 - interpolationRatio;
 
+		input_start = first_zero;
 		// see if there's room for extra 0 inputs before the main corse
 		if ( first_zero > 0 )
-			for (input_start = first_zero;; input_start -= interpolationRatio) {
+			for (;; input_start -= interpolationRatio) {
 				inputs.push_back(zero, 1);
 				if ( input_start - interpolationRatio < 0 )
 					break;
@@ -81,8 +82,8 @@ public:
 	//! Returns true if there are enough inputs to get another round of outputs
 	bool enough_inputs() {
 		int last_index = input_start + (inputs.size() - 1) * interpolationRatio;
-		int coef_required_encompass = coeficiants.size() - 1;
-		return last_index + interpolationRatio > coef_required_encompass;
+		int coef_max_index = coeficiants.size() - 1;
+		return last_index + interpolationRatio >= coef_max_index;
 	}
 
 	//! set up the next input - moves the start index and pops inputs from the front. returns false if unable to update the input

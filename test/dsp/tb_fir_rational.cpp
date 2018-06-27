@@ -141,12 +141,29 @@ TEST(fir_rational,size_test) {
 				std::vector<int> coefs(coef_size);
 				fir.set_coeficiantes(coefs);
 				fir.set_resampling_ratios(interp, decim);
-				for (int i = 0; i < 5; i++) {
+				for (int i = 1; i < 5; i++) {
 					int input[i * decim];
-					cout << "interp: " << interp << " decim: " << decim << " coefs: " << coef_size << endl;
-					auto& output = fir.work(input, LEN(input));
-					ASSERT_EQ(output.size(), i * interp);
+					cout << "num inputs: " << LEN(input) << " interp: " << interp << " decim: " << decim << " coefs: " << coef_size << endl;
+					auto& outputs = fir.work(input, LEN(input));
+					cout << "outputs: " << outputs.size() << endl;
+					ASSERT_EQ(outputs.size(), i * interp);
 				}
 			}
 
+}
+
+TEST(fir_rational,debug) {
+	int decim = 2, interp = 2, num_coefs = 1, num_inputs = 6;
+
+	fir_rational<int, int, int> fir;
+	std::vector<int> coefs(num_coefs);
+
+	int input[num_inputs];
+	fir.set_coeficiantes(coefs);
+	fir.set_resampling_ratios(interp, decim);
+	for (int i = 0; i < 5; i++) {
+		cout << "num inputs: " << LEN(input) << " interp: " << interp << " decim: " << decim << " coefs: " << num_coefs << endl;
+		auto& output = fir.work(input, LEN(input));
+		ASSERT_EQ(output.size(), num_inputs * interp / decim);
+	}
 }
