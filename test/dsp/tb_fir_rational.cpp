@@ -111,17 +111,17 @@ TEST(fir_rational,multirun) {
 	fir_rational<int, int, int> fir;
 	int coeficiants[] = { 1, 2, 3, 4 };
 	fir.set_coeficiantes(coeficiants);
-fir.set_resampling_ratios(1,1);
+	fir.set_resampling_ratios(1, 1);
 
 	for (int i = 0; i < 40; i++) {
 		int inputs_1[] = { 1, 0 };
-		auto &out_1 = fir.work(inputs_1,LEN(inputs_1));
+		auto &out_1 = fir.work(inputs_1, LEN(inputs_1));
 		int expected_1[] = { 1, 2 };
 		ASSERT_TRUE(assert_lists_equal(out_1 ,expected_1,LEN(expected_1) ));
 		ASSERT_EQ(out_1.size(), LEN(expected_1));
 
 		int inputs_2[] = { 0, 0 };
-		auto &out_2 = fir.work(inputs_2,LEN(inputs_2));
+		auto &out_2 = fir.work(inputs_2, LEN(inputs_2));
 		int expected_2[] = { 3, 4 };
 		ASSERT_TRUE(assert_lists_equal(out_2 ,expected_2,LEN(expected_2) ));
 		ASSERT_EQ(out_2.size(), LEN(expected_2));
@@ -156,8 +156,11 @@ TEST(fir_rational,debug) {
 
 	fir_rational<int, int, int> fir;
 	std::vector<int> coefs(num_coefs);
-
+	for (int i = 0; i < coefs.size(); i++)
+		coefs[i] = i+1;
 	int input[num_inputs];
+	for (int i = 0; i < LEN(input); i++)
+		input[i] = i;
 	fir.set_coeficiantes(coefs);
 	fir.set_resampling_ratios(interp, decim);
 	for (int i = 0; i < 5; i++) {

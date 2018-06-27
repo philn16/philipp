@@ -29,7 +29,7 @@ public:
 	//! keeps track of when an input should be taken
 	int noDecimationOut = 1;
 	//! position where input values start being multiplied by the taps
-	int input_start = 0;
+	int input_start;
 //! Temporarily holds the output values
 	vector_wrapper<outputT> output_holder;
 
@@ -44,10 +44,10 @@ public:
 		int first_zero;
 		first_zero = coeficiants.size() - 1 - interpolationRatio;
 
-		input_start = first_zero;
+		input_start=0;
 		// see if there's room for extra 0 inputs before the main corse
 		if ( first_zero > 0 )
-			for (;; input_start -= interpolationRatio) {
+			for (input_start = first_zero;; input_start -= interpolationRatio) {
 				inputs.push_back(zero, 1);
 				if ( input_start - interpolationRatio < 0 )
 					break;
@@ -119,10 +119,13 @@ public:
 			outputT sum = 0;
 			// multiply the inputs by the coefficients accounting for 0s due to interpolation
 			int input_count = 0;
-			for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
+						for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[input_count++];
+
 			outputs.push_back(&sum);
-				input_start -= decimationRatio;
+//			cout << "inputs:  " << inputs << endl;
+//			cout << "outputs: " << outputs << endl;
+			input_start -= decimationRatio;
 		}
 	}
 
@@ -150,7 +153,7 @@ public:
 		// prepare for the next poping
 		this->outputsToTake = toTake;
 		// set the begin and end pointer
-		output_holder.set_wrapper(outputs.begin(), outputs.begin()+this->outputsToTake);
+		output_holder.set_wrapper(outputs.begin(), outputs.begin() + this->outputsToTake);
 		// give the output
 		return output_holder;
 	}
