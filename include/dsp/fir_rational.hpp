@@ -121,13 +121,8 @@ public:
 			int input_count = 0;
 			for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[input_count++];
-			cout << "sum is " << sum << endl;
 			outputs.push_back(&sum);
-			cout << "outputs: [" ;
-			for (auto & output : outputs)
-				cout << output << ", ";
-			cout << "]" << endl;
-			input_start -= decimationRatio;
+				input_start -= decimationRatio;
 		}
 	}
 
