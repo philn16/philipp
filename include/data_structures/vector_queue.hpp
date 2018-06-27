@@ -13,7 +13,7 @@
  */
 template<typename dataType>
 class vector_queue {
-private:
+  private:
 	//! This is where vector queue gets it's name; this contains the data
 	std::vector<dataType> data;
 	//! This affects how much extra memory is used. It's a multiplyer. If this were one and things somehow still woked it'd be really slow as pushing a new element would require moving the queue each time
@@ -33,7 +33,7 @@ private:
 		_end = newEnd;
 	}
 
-public:
+  public:
 	dataType* begin() {
 		return &this->operator[](0);
 	}

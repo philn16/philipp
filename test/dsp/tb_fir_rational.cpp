@@ -130,8 +130,8 @@ TEST(fir_rational,multirun) {
 
 //! Make sure input and output sizes line up
 TEST(fir_rational,size_test) {
-	int interpolation[] = { 2, 3, 4, 5, 6, 7 };
-	int decimation[] = { 2, 3, 4, 5, 6, 7, 8, 9 };
+	int interpolation[] = {1, 2, 3, 4, 5, 6, 7 };
+	int decimation[] = { 1,2, 3, 4, 5, 6, 7, 8, 9 };
 	int coef_sizes[] = { 1, 10, 20, 29 };
 	for (auto interp : interpolation)
 		for (auto decim : decimation)
@@ -140,7 +140,7 @@ TEST(fir_rational,size_test) {
 				std::vector<int> coefs(coef_size);
 				fir.set_coeficiantes(coefs);
 				fir.set_resampling_ratios(interp, decim);
-				for (int i = 1; i < 5; i++) {
+				for (int i = 0; i < 5; i++) {
 					int input[i * decim];
 					auto& outputs = fir.work(input, LEN(input));
 					ASSERT_EQ(outputs.size(), i * interp);

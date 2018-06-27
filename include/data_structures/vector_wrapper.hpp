@@ -7,7 +7,7 @@
  */
 template<class dataT>
 class vector_wrapper {
-public:
+  public:
 	//! Return the first valid pointer
 	dataT* begin() {
 		return _begin;

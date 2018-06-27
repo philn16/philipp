@@ -16,7 +16,7 @@
 template<typename inputT, typename coeficiantT = inputT, typename outputT = inputT>
 class fir_rational {
 //   private:
-public:
+  public:
 	int interpolationRatio = 1, decimationRatio = 1;
 	int numTaps = 0;
 	//! The input also includes the states since states are just previous inputs
@@ -30,10 +30,10 @@ public:
 	int noDecimationOut = 1;
 	//! position where input values start being multiplied by the taps
 	int input_start;
-//! Temporarily holds the output values
+	//! Temporarily holds the output values
 	vector_wrapper<outputT> output_holder;
 
-public:
+  public:
 	//! shared initialization.
 	//! allow first output to be the first input multiplied by the first state
 	void _init() {
@@ -121,12 +121,10 @@ public:
 			outputT sum = 0;
 			// multiply the inputs by the coefficients accounting for 0s due to interpolation
 			int input_count = 0;
-						for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
+			for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[input_count++];
 
 			outputs.push_back(&sum);
-//			cout << "inputs:  " << inputs << endl;
-//			cout << "outputs: " << outputs << endl;
 			input_start -= decimationRatio;
 		}
 	}
