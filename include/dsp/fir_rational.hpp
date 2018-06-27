@@ -44,7 +44,6 @@ public:
 		int first_zero;
 		first_zero = coeficiants.size() - 1 - interpolationRatio;
 
-//		input_start=0;
 		input_start=first_zero;
 		// see if there's room for extra 0 inputs before the main corse
 		if ( first_zero > 0 )
@@ -55,7 +54,6 @@ public:
 			}
 		else
 			inputs.push_back(zero, 1);
-			cout << "input start: " << input_start << " num inputs " << inputs.size() << endl;
 	}
 
 	//! Example: if interpolationRatio is 3 and decimationRatio is 2 then there will be 3 outputs for every input. \note This is an initialization function.
