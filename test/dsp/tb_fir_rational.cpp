@@ -152,7 +152,7 @@ TEST(fir_rational,size_test) {
 }
 
 TEST(fir_rational,debug) {
-	int decim = 2, interp = 2, num_coefs = 1, num_inputs = 6;
+	int decim = 2, interp = 3, num_coefs = 1, num_inputs = 2;
 
 	fir_rational<int, int, int> fir;
 	std::vector<int> coefs(num_coefs);
