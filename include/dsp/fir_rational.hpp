@@ -33,6 +33,7 @@ public:
 //! Temporarily holds the output values
 	vector_wrapper<outputT> output_holder;
 
+
 public:
 	//! shared initialization.
 	//! allow first output to be the first input multiplied by the first state
@@ -40,13 +41,17 @@ public:
 		inputs.empty();
 		// setup the initial inputs / states with 0s
 		inputT zero[] = { inputT(0) };
-		// total size of inital input values including the soon to be new one
-		int total = (coeficiants.size() + interpolationRatio - 1) / interpolationRatio;
+		// location of first artificially added zero
+		int first_zero;
+		first_zero = coeficiants.size() - 1 - interpolationRatio;
+
 		// see if there's room for extra 0 inputs before the main corse
-		for (int i = 0; i < total; i++)
-			inputs.push_back(zero, 1);
-		// now for determining the start location
-		input_start = coeficiants.size() - (total) * interpolationRatio - 1;
+		if ( first_zero > 0 )
+			for (input_start = first_zero;; input_start -= interpolationRatio) {
+				inputs.push_back(zero, 1);
+				if ( input_start - interpolationRatio < 0 )
+					break;
+			}
 	}
 
 	//! Example: if interpolationRatio is 3 and decimationRatio is 2 then there will be 3 outputs for every input. \note This is an initialization function.
@@ -109,6 +114,8 @@ public:
 		while (true) {
 			if ( !update_input() )
 				return;
+			if( ! enough_inputs())
+				break;
 			outputT sum = 0;
 			// multiply the inputs by the coefficients accounting for 0s due to interpolation
 			int input_count = 0;

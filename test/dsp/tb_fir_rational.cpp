@@ -39,16 +39,16 @@ TEST(fir_rational, _init) {
 	 */
 	fir.set_resampling_ratios(3, 2);
 	EXPECT_EQ(fir.inputs.size(), 1);
-	EXPECT_EQ(fir.input_start, 2);
+	EXPECT_EQ(fir.input_start, 1);
 
 	/**
 	 *  h] 4 3 2 | 1 0
-	 *  x]     0 |   a   b   c
+	 *  x] 0   0 |   a   b   c
 	 *  p] 0 1 2 | 3 4 5 6 7 8 9
 	 */
 	fir.set_resampling_ratios(2, 3);
 	EXPECT_EQ(fir.inputs.size(), 2);
-	EXPECT_EQ(fir.input_start, 1);
+	EXPECT_EQ(fir.input_start, 0);
 }
 
 TEST(fir_rational, test_3_to_1_upr) {
@@ -143,8 +143,8 @@ TEST(fir_rational,size_test) {
 				fir.set_resampling_ratios(interp, decim);
 				for (int i = 0; i < 5; i++) {
 					int input[i * decim];
-					fir.give_inputs(input, LEN(input));
-					auto& output = fir.get_outputs();
+					cout << "interp: " << interp << " decim: " << decim << " coefs: " << coef_size << endl;
+					auto& output = fir.work(input, LEN(input));
 					ASSERT_EQ(output.size(), i * interp);
 				}
 			}
