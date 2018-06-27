@@ -116,14 +116,12 @@ fir.set_resampling_ratios(1,1);
 	for (int i = 0; i < 40; i++) {
 		int inputs_1[] = { 1, 0 };
 		auto &out_1 = fir.work(inputs_1,LEN(inputs_1));
-		cout << "revieved " << out_1 << endl;
 		int expected_1[] = { 1, 2 };
 		ASSERT_TRUE(assert_lists_equal(out_1 ,expected_1,LEN(expected_1) ));
 		ASSERT_EQ(out_1.size(), LEN(expected_1));
 
 		int inputs_2[] = { 0, 0 };
 		auto &out_2 = fir.work(inputs_2,LEN(inputs_2));
-		cout << "revieved " << out_2 << endl;
 		int expected_2[] = { 3, 4 };
 		ASSERT_TRUE(assert_lists_equal(out_2 ,expected_2,LEN(expected_2) ));
 		ASSERT_EQ(out_2.size(), LEN(expected_2));

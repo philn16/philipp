@@ -110,8 +110,6 @@ public:
 	template<typename inputStruct>
 	void give_inputs(inputStruct in, int ammount) {
 		inputs.push_back(in, ammount);
-		cout << inputs << endl;
-		cout << input_start << endl;
 		// keep going as long as there are enough inputs
 		while (true) {
 			if ( !update_input() )
@@ -158,7 +156,6 @@ public:
 		this->outputsToTake = toTake;
 		// set the begin and end pointer
 		output_holder.set_wrapper(outputs.begin(), outputs.begin()+this->outputsToTake);
-		cout << "outputs: " << outputs << " holder: " << output_holder << " of size " << output_holder.size() << endl;
 		// give the output
 		return output_holder;
 	}
