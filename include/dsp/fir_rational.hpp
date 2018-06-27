@@ -33,7 +33,6 @@ public:
 //! Temporarily holds the output values
 	vector_wrapper<outputT> output_holder;
 
-
 public:
 	//! shared initialization.
 	//! allow first output to be the first input multiplied by the first state
@@ -83,7 +82,7 @@ public:
 	bool enough_inputs() {
 		int last_index = input_start + (inputs.size() - 1) * interpolationRatio;
 		int coef_max_index = coeficiants.size() - 1;
-		return last_index + interpolationRatio >= coef_max_index;
+		return last_index >= coef_max_index;
 	}
 
 	//! set up the next input - moves the start index and pops inputs from the front. returns false if unable to update the input
@@ -111,18 +110,25 @@ public:
 	template<typename inputStruct>
 	void give_inputs(inputStruct in, int ammount) {
 		inputs.push_back(in, ammount);
+		cout << inputs << endl;
+		cout << input_start << endl;
 		// keep going as long as there are enough inputs
 		while (true) {
 			if ( !update_input() )
 				return;
-			if( ! enough_inputs())
+			if ( !enough_inputs() )
 				break;
 			outputT sum = 0;
 			// multiply the inputs by the coefficients accounting for 0s due to interpolation
 			int input_count = 0;
 			for (int position = input_start; position < coeficiants.size(); position += interpolationRatio)
 				sum += coeficiants[position] * inputs[input_count++];
+			cout << "sum is " << sum << endl;
 			outputs.push_back(&sum);
+			cout << "outputs: [" ;
+			for (auto & output : outputs)
+				cout << output << ", ";
+			cout << "]" << endl;
 			input_start -= decimationRatio;
 		}
 	}
@@ -142,7 +148,7 @@ public:
 	decltype(output_holder)& get_outputs(int toTake = -1, bool adjust_output_size = true) {
 		// adjust the take value
 		if ( toTake == -1 )
-			toTake = outputs.size();
+			toTake = outputs_avaliable();
 		// make it so the next round through doesn't pop the front
 		if ( adjust_output_size == false )
 			toTake = 0;
@@ -151,7 +157,8 @@ public:
 		// prepare for the next poping
 		this->outputsToTake = toTake;
 		// set the begin and end pointer
-		output_holder.set_wrapper(outputs.begin(), outputs.end());
+		output_holder.set_wrapper(outputs.begin(), outputs.begin()+this->outputsToTake);
+		cout << "outputs: " << outputs << " holder: " << output_holder << " of size " << output_holder.size() << endl;
 		// give the output
 		return output_holder;
 	}
@@ -159,6 +166,12 @@ public:
 	template<typename inputStruct>
 	decltype(output_holder)& work(inputStruct in, int ammount) {
 		give_inputs(in, ammount);
+		return get_outputs();
+	}
+
+	template<typename inputStruct>
+	decltype(output_holder)& work(inputStruct in) {
+		give_inputs(in);
 		return get_outputs();
 	}
 

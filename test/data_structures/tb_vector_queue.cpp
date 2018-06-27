@@ -16,7 +16,7 @@ TEST(vector_queue, test1) {
 			ASSERT_EQ(count, num);
 			count++;
 		}
-		ASSERT_EQ(count,LEN(in_1));
+		ASSERT_EQ(count, LEN(in_1));
 	}
 
 	ASSERT_EQ(uut.size(), 6);
@@ -57,3 +57,16 @@ TEST(vector_queue, test1) {
 
 }
 
+TEST(vector_queue, test2) {
+	vector_queue<int> uut;
+	int backs[] = { 1, 2, 3, 4 };
+	for (int i = 0; i < 400; i++) {
+		for (int j = 0; j < LEN(backs); j++)
+			uut.push_back(&backs[j]);
+		for (int j = 0; j < LEN(backs); j++) {
+			ASSERT_EQ(*uut.begin(), backs[j]);
+			uut.pop_front(1);
+		}
+	}
+
+}

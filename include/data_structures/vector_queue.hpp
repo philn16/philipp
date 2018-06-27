@@ -1,88 +1,96 @@
 #pragma once
 #include <vector>
 #include <sys/types.h>
+#include <iostream>
 /**
-The vector queue is a queue that on average is O(1) for pushing new elements to the back while allowing for sequential acess of data.
-The basic algorithm is that it uses more data then it needs. When the end of the memory space is reached, it moves everything to the start. While moving everything to the stard is O(n), it only happens every n adds.
-Elements of the queu are acessed via the [] operator where the first elements have a smaller index than the last elements.
-Possible uses:
---------------
-Storing the states of a fir filter as a queue operaation is desired, but you want to be able to acess elements sequentially
+ The vector queue is a queue that on average is O(1) for pushing new elements to the back while allowing for sequential acess of data.
+ The basic algorithm is that it uses more data then it needs. When the end of the memory space is reached, it moves everything to the start. While moving everything to the stard is O(n), it only happens every n adds.
+ Elements of the queu are acessed via the [] operator where the first elements have a smaller index than the last elements.
+ Possible uses:
+ --------------
+ Storing the states of a fir filter as a queue operaation is desired, but you want to be able to acess elements sequentially
 
-*/
-template <typename dataType>
+ */
+template<typename dataType>
 class vector_queue {
-  private:
+private:
 	//! This is where vector queue gets it's name; this contains the data
 	std::vector<dataType> data;
 	//! This affects how much extra memory is used. It's a multiplyer. If this were one and things somehow still woked it'd be really slow as pushing a new element would require moving the queue each time
-	int mult=4;
+	int mult = 4;
 	//! Tracks the start of valid indexes (note end takes priority)
-	int _begin=0;
+	int _begin = 0;
 	//! Tracks the first invalid index location
-	int _end=0;
+	int _end = 0;
 	//! Move the data back to the front of avaliable memory
 	void shitToFront() {
-		auto newEnd=size();
+		auto newEnd = size();
 		// shift the data to the "left"
-		for(int write=0,read=_begin; read != _end; read++,write++)
-			data[write]=data[read];
+		for (int write = 0, read = _begin; read != _end; read++, write++)
+			data[write] = data[read];
 		// update the start and end indexes to reflect the move
-		_begin=0;
-		_end=newEnd;
+		_begin = 0;
+		_end = newEnd;
 	}
 
-  public:
+public:
 	dataType* begin() {
 		return &this->operator[](0);
 	}
 	dataType* end() {
-		return begin()+size();
+		return begin() + size();
 	}
 	vector_queue() {
 		data.resize(mult);
 	}
 	//! Set how much extra data is to be stored (for performancce). Note this should be larger than 1
-	void set_mult(int mult=2) {
-		this->mult=mult;
+	void set_mult(int mult = 2) {
+		this->mult = mult;
 	}
 	//! Pop the front by ammountToPop elements. Starts poping values at index 0. Undefined behavior happens if you pop more than what's returned by size()
-	void pop_front(int ammountToPop=1) {
+	void pop_front(int ammountToPop = 1) {
 		_begin += ammountToPop;
 	}
 	//! pop the back (starting at index size()-1) by ammountToPop elements. Undefined behavior happens if you pop more than what's returned by size()
-	void pop_back(int ammountToPop=1) {
+	void pop_back(int ammountToPop = 1) {
 		_end -= ammountToPop;
 	}
 	//! pushes values to the back. For example, if we already had [0,1,2,3] and fed this [4,5,6] we'd end up with [0,1,2,3,4,5,6]
 	template<typename arrayT>
-	void push_back(arrayT input, int ammount=1) {
+	void push_back(arrayT input, int ammount = 1) {
 		// move everything to the front if we've reached the end
-		if ( _end+ammount >= data.size())
+		if ( _end + ammount >= data.size() )
 			shitToFront();
 		// ammount of elements in use after finnishing the push
-		auto afterAddAmmount=ammount+_end;
+		auto afterAddAmmount = ammount + _end;
 		// allocate more data if nessesary
-		if( afterAddAmmount > data.size() )
-			data.resize(afterAddAmmount*mult);
+		if ( afterAddAmmount > data.size() )
+			data.resize(afterAddAmmount * mult);
 		// add the lements to the back
-		for(int i=0; _end != afterAddAmmount; _end++,i++)
-			data[_end]=input[i];
+		for (int i = 0; _end != afterAddAmmount; _end++, i++)
+			data[_end] = input[i];
 	}
 	//! returns the size of data valid data (ignoring extra allocated stuff)
 	size_t size() {
-		return _end-_begin;
+		return _end - _begin;
 	}
 	//! empy the queue
 	void empty() {
-		pop_back(size() );
+		pop_back(size());
 	}
 	//! Acess valid data. Note that the first valid data pushed onto the queue is at index 0, so if you pushed 1 then 2 then 3 index 0 would have 1.
 	dataType& operator[](int loc) {
-		return data[_begin+loc];
+		return data[_begin + loc];
 	}
 
-
-
-
 };
+
+template<typename dataType>
+
+std::ostream& operator<<(std::ostream &os, vector_queue<dataType>& b) {
+	os << "[ ";
+	for (auto & val : b)
+		os << val << ", ";
+	os << "]";
+	return os;
+}
