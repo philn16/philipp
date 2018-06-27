@@ -84,9 +84,9 @@ public:
 
 	//! Returns true if there are enough inputs to get another round of outputs
 	bool enough_inputs() {
-		int last_index = input_start + (inputs.size() - 1) * interpolationRatio;
+		int first_not_covered_index = input_start + inputs.size() * interpolationRatio;
 		int coef_max_index = coeficiants.size() - 1;
-		return last_index >= coef_max_index || input_start > coef_max_index;
+		return first_not_covered_index > coef_max_index;
 	}
 
 	//! set up the next input - moves the start index and pops inputs from the front. returns false if unable to update the input

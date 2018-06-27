@@ -142,9 +142,9 @@ TEST(fir_rational,size_test) {
 				fir.set_resampling_ratios(interp, decim);
 				for (int i = 1; i < 5; i++) {
 					int input[i * decim];
-					cout << "num inputs: " << LEN(input) << " interp: " << interp << " decim: " << decim << " coefs: " << coef_size << endl;
+//					cout << "num inputs: " << LEN(input) << " interp: " << interp << " decim: " << decim << " coefs: " << coef_size << endl;
 					auto& outputs = fir.work(input, LEN(input));
-					cout << "outputs: " << outputs.size() << endl;
+//					cout << "outputs: " << outputs.size() << endl;
 					ASSERT_EQ(outputs.size(), i * interp);
 				}
 			}
@@ -152,7 +152,7 @@ TEST(fir_rational,size_test) {
 }
 
 TEST(fir_rational,debug) {
-	int decim = 2, interp = 3, num_coefs = 1, num_inputs = 2;
+	int decim = 2, interp = 3, num_coefs = 10, num_inputs = 2;
 
 	fir_rational<int, int, int> fir;
 	std::vector<int> coefs(num_coefs);
