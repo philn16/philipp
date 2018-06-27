@@ -25,30 +25,30 @@ TEST(fir_rational, _init) {
 	fir_rational<int, int, int> fir;
 	fir.set_coeficiantes(coeficiants);
 
-	/** h] 4 3 2 1 0
-	 *  x] 0 0 0 0 a
-	 *  p] 0 1 2 3 4 5 6 7
+	/** h] 4 3 2 1 | 0
+	 *  x] 0 0 0 0 | a
+	 *  p] 0 1 2 3 | 4 5 6 7
 	 */
 	fir.set_resampling_ratios(1, 1);
-	ASSERT_EQ(fir.inputs.size(), 4);
-	ASSERT_EQ(fir.input_start, 0);
+	EXPECT_EQ(fir.inputs.size(), 4);
+	EXPECT_EQ(fir.input_start, 0);
 
-	/** h] 4 3 2 1 0
-	 *  x]   0     a     b
-	 *  p] 0 1 2 3 4 5 6 7
+	/** h] 4 3 | 2 1 0
+	 *  x]   0 |     a     b
+	 *  p] 0 1 | 2 3 4 5 6 7
 	 */
 	fir.set_resampling_ratios(3, 2);
-	ASSERT_EQ(fir.inputs.size(), 1);
-	ASSERT_EQ(fir.input_start, 2);
+	EXPECT_EQ(fir.inputs.size(), 1);
+	EXPECT_EQ(fir.input_start, 2);
 
 	/**
-	 *  h] 4 3 2 1 0
-	 *  x]   0   0   a   b   c
-	 *  p] 0 1 2 3 4 5 6 7 8 9
+	 *  h] 4 3 2 | 1 0
+	 *  x]     0 |   a   b   c
+	 *  p] 0 1 2 | 3 4 5 6 7 8 9
 	 */
 	fir.set_resampling_ratios(2, 3);
-	ASSERT_EQ(fir.inputs.size(), 2);
-	ASSERT_EQ(fir.input_start, 1);
+	EXPECT_EQ(fir.inputs.size(), 2);
+	EXPECT_EQ(fir.input_start, 1);
 }
 
 TEST(fir_rational, test_3_to_1_upr) {
